@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleSmartHouse1._0
 {
-   interface IParametrAble
+     interface IParametrAble
     {
         int Max { get;}
         int Min { get;}

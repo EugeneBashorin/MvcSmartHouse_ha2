@@ -1,7 +1,7 @@
 ﻿
 namespace SimpleSmartHouse1._0
 {
-   class Heater :  Device, IModeDefaultSettingsAble, ITemperatureAble, IModeAble<Mode>
+  class Heater :  Device, IModeDefaultSettingsAble, ITemperatureAble, IModeAble<Mode>
     {
         public Mode Mode{
             get { return mode; }

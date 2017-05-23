@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace SimpleSmartHouse1._0
+namespace MVCSmartHouse.Models.AdaptModel.AdaptInterfacies
 {
-     interface IChannelAble
+    public interface IIncDecChannelAble
     {
         int Channel { get; set; }
         void IncreaseChannel();
         void DecreaseChannel();
-        void HandSetChannel(int inputData);
     }
 }

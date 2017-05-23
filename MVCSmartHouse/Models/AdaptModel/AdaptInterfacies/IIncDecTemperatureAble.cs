@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace SimpleSmartHouse1._0
+namespace MVCSmartHouse.Models.AdaptModel.AdaptInterfacies
 {
-    interface ITemperatureAble
+    public interface IIncDecTemperatureAble
     {
         int Temperature { get; set; }
         void IncreaseTemperature();
         void DecreaseTemperature();
-        void HandSetTemperature(int inputData);
     }
 }

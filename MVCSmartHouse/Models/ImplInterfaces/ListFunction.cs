@@ -17,6 +17,7 @@ namespace SimpleSmartHouse1._0
             }
             return tempListString;
         }
+
         public void ListLoad(List<string> tempListLoad, string tempListLocation)
         {
             string text = "";
@@ -37,18 +38,3 @@ namespace SimpleSmartHouse1._0
         }
     }
 }
-//для записи в файл
-//using (StreamWriter sw = new StreamWriter(writePath, false, System.Text.Encoding.Default))
-//{
-//    sw.WriteLine(text);
-//}
-//using (StreamWriter sw = new StreamWriter(writePath, true, System.Text.Encoding.Default))
-//{
-//    sw.WriteLine("Дозапись");
-//    sw.Write(4.5);
-//}
-//}
-//catch (Exception e)
-//{
-//    Console.WriteLine(e.Message);
-//}

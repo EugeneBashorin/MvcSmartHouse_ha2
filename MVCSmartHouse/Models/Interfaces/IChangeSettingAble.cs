@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleSmartHouse1._0
 {
-   public interface IChangeSettingAble
+    interface IChangeSettingAble
     {
         int Increase(int temperature);
         int Decrease(int temperature);

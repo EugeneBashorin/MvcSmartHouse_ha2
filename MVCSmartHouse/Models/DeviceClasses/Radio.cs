@@ -3,13 +3,14 @@ using System.Collections.Generic;
 
 namespace SimpleSmartHouse1._0
 {
-class Radio : Device, IChannelAble, IVolumeAble, ISetChannelAble
+class Radio : Device, IChannelAble,  ISetChannelAble, IVolumeAble
     {
         List<string> radioChannelList = new List<string>();
         public IChangeSettingAble ChangeParams { get; set; }
         public IParametrAble ChannelParam { get; set; }
         public IParametrAble VolumeParam { get; set; }
         public IListOrderAble ListFunction { get; set; }
+        private bool channelLoadState;
         private string chanList = "Channel list:";
         private string readPath = AppDomain.CurrentDomain.BaseDirectory + @"App_Data/ChannelList/ReadRadioChannel.txt";
 
@@ -32,17 +33,14 @@ class Radio : Device, IChannelAble, IVolumeAble, ISetChannelAble
             ListFunction = listFunction;
         }
 
-        public override void SwtchOn()
-        {
-            State = true;
-            ListFunction.ListLoad(radioChannelList, readPath);
-        }
-
         public void LoadChannel()
         {
-            ListFunction.ListLoad(radioChannelList, readPath);
+            if (true == State)
+            {
+                channelLoadState = true;
+                ListFunction.ListLoad(radioChannelList, readPath);
+            }
         }
-
         public void IncreaseVolume()
         {
             Volume = ChangeParams.Increase(Volume);
@@ -83,19 +81,32 @@ class Radio : Device, IChannelAble, IVolumeAble, ISetChannelAble
             string channelName;
             string channelNumber;
             string volume;
-            if (State)
+
+            string channelLoadState;
+                        
+            if (State == true)
             {
-                channelName = radioChannelList[Channel];
-                channelNumber = Channel.ToString();
                 volume = Volume.ToString();
+                if (this.channelLoadState == true)
+                {
+                    channelName = radioChannelList[Channel];
+                    channelNumber = Channel.ToString();
+                    channelLoadState = "Loaded";
+                }
+                else {
+                    channelLoadState = "Need to load";
+                    channelName = "--";
+                    channelNumber = "--";
+                }
             }
             else
             {
+                channelLoadState = "Need to load";
                 channelName = "--";
                 channelNumber = "--";
                 volume = "--";
             }
-            return base.ToString() + " Channel:" + channelNumber + ":" + channelName + " Volume:" + volume;
+            return base.ToString() + " Channel:" + channelNumber + ":" + channelName + " Channel state:" + channelLoadState + " Volume:" + volume;
         }
     }
 }

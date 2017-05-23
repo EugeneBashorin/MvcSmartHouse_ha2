@@ -1,15 +1,16 @@
 ﻿
 namespace SimpleSmartHouse1._0
 {
-  class Illuminator : Device, IModeDefaultSettingsAble, IBrightAble<BrightnessLevel>
+  class Illuminator : Device, IModeDefaultSettingsAble, IBrightAble<IlluminatorBrightness>
     {
-        public BrightnessLevel Bright{
+        public IlluminatorBrightness Bright
+        {
             get { return bright; }
             set { bright = value; }
         }
        
-        private BrightnessLevel bright;
-        public Illuminator(string name, bool state, BrightnessLevel bright) : base(name, state)
+        private IlluminatorBrightness bright;
+        public Illuminator(string name, bool state, IlluminatorBrightness bright) : base(name, state)
         {
             Name = name;
             State = state;
@@ -18,22 +19,22 @@ namespace SimpleSmartHouse1._0
 
         public void SetMaxMode()
         {
-            Bright = BrightnessLevel.Bright;
+            Bright = IlluminatorBrightness.BrightWhite;
         }
 
         public void SetMiddleMode()
         {
-            Bright = BrightnessLevel.Medium;
+            Bright = IlluminatorBrightness.Daylight;
         }
 
         public void SetMinMode()
         {
-            Bright = BrightnessLevel.Low;
+            Bright = IlluminatorBrightness.WarmWhite;
         }
 
         public void SetAutoMode()
         {
-            Bright = BrightnessLevel.Default;
+            Bright = IlluminatorBrightness.Default;
         }
 
         public override string ToString()
@@ -41,12 +42,12 @@ namespace SimpleSmartHouse1._0
             string bright;
             if (State)
             {
-                if (this.Bright == BrightnessLevel.Bright)
-                    bright = "Brirght";
-                else if (this.Bright == BrightnessLevel.Medium)
-                    bright = "Average";
-                else if (this.Bright == BrightnessLevel.Low)
-                    bright = "Soft";
+                if (this.Bright == IlluminatorBrightness.BrightWhite)
+                    bright = "Bright White";
+                else if (this.Bright == IlluminatorBrightness.Daylight)
+                    bright = "Day light";
+                else if (this.Bright == IlluminatorBrightness.WarmWhite)
+                    bright = "Warm White";
                 else
                     bright = "Auto";
             }

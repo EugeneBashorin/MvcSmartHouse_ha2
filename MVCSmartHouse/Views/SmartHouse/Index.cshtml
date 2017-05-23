@@ -1,5 +1,7 @@
 ﻿@using System.Web.Mvc.Html
+@using MVCSmartHouse.Models.AdaptModel.AdaptInterfacies;
 @using SimpleSmartHouse1._0
+
 @model IDictionary<int, Device>
 @{
     Layout = null;
@@ -24,13 +26,12 @@
                     Device: @item.Value.Name
                     <br />
                     @item.Value.ToString()
-                    <br />                    
+                    <br />
                 </div>
-                <span>@Html.ActionLink("On", "SwitchOn", new { id = item.Key }, new {@class = "button" })</span><!-- ON -->
-                <span>@Html.ActionLink("Off", "SwitchOff", new { id = item.Key }, new { @class = "button" })</span><!-- OFF -->
-                <span>@Html.ActionLink("Del", "Delete", new { id = item.Key }, new { @class = "button" })</span><!-- DEL -->
+                <span>@Html.ActionLink("On", "MainFunc", new { id = item.Key, command = "On" }, new { @class = "button" })</span><!-- ON -->
+                <span>@Html.ActionLink("Off", "MainFunc", new { id = item.Key, command = "Off" }, new { @class = "button" })</span><!-- OFF -->
+                <span>@Html.ActionLink("Del", "MainFunc", new { id = item.Key, command = "Del" }, new { @class = "button" })</span><!-- DEL -->
                 <br />
-
                 @if (item.Value.Name == "Heater")
                     {
                         if (item.Value.State == true)
@@ -42,11 +43,11 @@
                         <img src="~/Content/image/RadiatorOff.png" class="img" alt="Radiator Off">
                     }
                 }
-                
+
                 else if (item.Value.Name == "AirCondition")
+                {
+                    if (item.Value.State == true)
                     {
-                        if (item.Value.State == true)
-                        {
                         <img src="~/Content/image/onAC.png" class="img" alt="Heater On">
                     }
                     else
@@ -56,9 +57,9 @@
                 }
 
                 else if (item.Value.Name == "Illuminator")
+                {
+                    if (item.Value.State == true)
                     {
-                        if (item.Value.State == true)
-                        {
                         <img src="~/Content/image/onLamp.png" class="img" alt="Lamp On">
                     }
                     else
@@ -68,9 +69,9 @@
                 }
 
                 else if (item.Value.Name == "Radio")
+                {
+                    if (item.Value.State == true)
                     {
-                        if (item.Value.State == true)
-                        {
                         <img src="~/Content/image/RadioOn.png" class="img" alt="Radio On">
                     }
                     else
@@ -78,11 +79,11 @@
                         <img src="~/Content/image/RadioOff.png" class="img" alt="Radio Off">
                     }
                 }
-              
+
                 else if (item.Value.Name == "TV")
+                {
+                    if (item.Value.State == true)
                     {
-                        if (item.Value.State == true)
-                        {
                         <img src="~/Content/image/TVon.png" class="img" alt="TV On">
                     }
                     else
@@ -92,68 +93,96 @@
                 }
                 <br />
 
-                @if (item.Value is ITemperatureAble)
+                @if (item.Value is IHandSetTempWarmAble)
                 {
-                    //<input type="submit" id="@item.Key" formaction="SetTemperature/@item.Key" class="button" value="Set temperature" /><!-- SetTemperature -->
-                    //@Html.TextBox("temperature", Session["temperature" + @item.Key], new { id = "temperature" + item.Key })                   
-                    using (Html.BeginForm("SetTemperature/" + item.Key, "SmartHouse"))
-                    {
-                        <input type="submit" id="@item.Key" formaction="SetTemperature/@item.Key" class="button" value="Set temperature" /><!--  -->
-                        @Html.TextBox("temperature", Session["temperature"], new { id = "temperature" + item.Key, size = "3" })
-                    }
+                    <input type="submit" id="@item.Key" formaction="SetHeatTemperature/@item.Key" class="button" value="Set temperature" />
+                    @Html.TextBox("warmTemper", Session["warmTemper"], new { id = "warmTemper" + item.Key, size = "3" })
                     <br />
-                    @Html.ActionLink("Temp +", "IncreaseTemperature", new { id = item.Key }, new { @class = "button" })<!--  IncreaseTemperature -->
-                    @Html.ActionLink("Temp -", "DecreaseTemperature", new { id = item.Key }, new { @class = "button" })<!-- DecreaseTemperature -->
                     <br />
                 }
-                <br />
 
-                @if (item.Value is IBrightAble<BrightnessLevel>)
-                    {
-                        using (Html.BeginForm("SetBrightMode/" + item.Key, "SmartHouse"))
-                        {
-                        <input type="submit" id="@item.Key" formaction="SetBrightMode/@item.Key" class="button" value="Set bright" /><!--  -->
-                        @Html.DropDownList("brightMode", new SelectList(new[] {BrightnessLevel.Bright.ToString(),BrightnessLevel.Medium.ToString(),
+                @if (item.Value is IHandSetTempColdAble)
+                {
+                    <input type="submit" id="@item.Key" formaction="SetColdTemperature/@item.Key" class="button" value="Set temperature" />
+                    @Html.TextBox("coldTemper", Session["coldTemper"], new { id = "coldTemper" + item.Key, size = "3" })
+                    <br />
+                    <br />
+                }
+
+                @if (item.Value is IIncDecTemperatureAble)
+                {
+                    @Html.ActionLink("Temp +", "MainFunc", new { id = item.Key, command = "IncTemp" }, new { @class = "button" })
+                    @Html.ActionLink("Temp -", "MainFunc", new { id = item.Key, command = "DecTemp" }, new { @class = "button" })
+                    <br />
+                    <br />
+                }
+
+
+                @if (item.Value is IMultimediaBrightAble)
+                {
+                    <input type="submit" id="@item.Key" formaction="SetBrightMode/@item.Key" class="button" value="Set bright" />
+                    @Html.DropDownList("brightMode", new SelectList(new[] {BrightnessLevel.Bright.ToString(),BrightnessLevel.Medium.ToString(),
                                         BrightnessLevel.Low.ToString(),BrightnessLevel.Default.ToString()}),
-                          (string)Session["BrightMode"], new { id = "brightMode" + item.Key, @class= "dropDownDeviceList"})
-                    }
+                          (string)Session["BrightMode"], new { id = "brightMode" + item.Key, @class = "dropDownDeviceList" })
                     <br />
                 }
 
-                @if (item.Value is IVolumeAble)
-                    {
-                        // <input type="submit" id="@item.Key" formaction="SetVolume/@item.Key" class="button" value="Set Volume" /><!-- SetVolume -->
-                        // @Html.TextBox("volume", (string)ViewBag.Volume, new { id = "volume" + item.Key })
-                        using (Html.BeginForm("SetVolume/" + item.Key, "SmartHouse"))
-                        {
-                        <input type="submit" id="@item.Key" formaction="SetVolume/@item.Key" class="button" value="Set Volume" /><!--  -->
-                        @Html.TextBox("volume", Session["volume"], new { id = "volume" + item.Key, size = "3" })
-                    }
-                    <br />
-                    @Html.ActionLink("Volume +", "IncreaseVolume", new { id = item.Key }, new { @class = "button" })<!-- IncreaseVolume -->
-                    @Html.ActionLink("Volume -", "DecreaseVolume", new { id = item.Key }, new { @class = "button" })<!-- DecreaseVolume -->
-                    <br />                    <br />
-                }
-                
-
-                @if (item.Value is IChannelAble)///////////////////////////////////
+                @if (item.Value is IHandSetTVVolumeAble)
                 {
-                    using (Html.BeginForm("SetChannel/" + item.Key, "SmartHouse"))
-                    {
-                        <input type="submit" id="@item.Key" formaction="SetChannel/@item.Key" class="button" value="Set Channel" /><!--  -->
-                        @Html.TextBox("channel", Session["Channel"], new { id = "channel" + item.Key, size = "3" })
-                    }
-                    <br />
-                    @Html.ActionLink("Channel +", "NextChannel", new { id = item.Key }, new { @class = "button" })
-                    @Html.ActionLink("Channel -", "PrevChannel", new { id = item.Key }, new { @class = "button" })
+                    <input type="submit" id="@item.Key" formaction="SetTVVolume/@item.Key" class="button" value="Set Volume" />
+                    @Html.TextBox("tvVolume", Session["tvVolume"], new { id = "tvVolume" + item.Key, size = "3" })
                     <br />
                     <br />
                 }
-                
-                @if (item.Value is ISetChannelAble)
+
+                @if (item.Value is IHandSetRadioVolumeAble)
                     {
-                    @Html.ActionLink("Show Chann list", "ShowChannelList", new { id = item.Key }, new { @class = "button" })
-                    @Html.ActionLink("Hide Chann list", "HideChannelList", new { id = item.Key }, new { @class = "button" })
+                    <input type="submit" id="@item.Key" formaction="SetRadioVolume/@item.Key" class="button" value="Set Volume" />
+                    @Html.TextBox("rVolume", Session["rVolume"], new { id = "rVolume" + item.Key, size = "3" })
+                    <br />
+                    <br />
+                }
+
+                @if (item.Value is IIncDecVolumeAble)
+                    {
+                    @Html.ActionLink("Volume +", "MainFunc", new { id = item.Key, command = "IncVol" }, new { @class = "button" })<!-- IncreaseVolume -->
+                    @Html.ActionLink("Volume -", "MainFunc", new { id = item.Key, command = "DecVol" }, new { @class = "button" })<!-- DecreaseVolume -->
+                    <br />
+                    <br />
+                }
+
+
+                @if (item.Value is IHandSetTVChannelAble)
+                    {
+                    <input type="submit" id="@item.Key" formaction="SetTVChannel/@item.Key" class="button" value="Set Channel" /><!--  -->
+                    @Html.TextBox("tvChannel", Session["Channel"], new { id = "tvChannel" + item.Key, size = "3" })
+                    <br />
+                    <br />
+                }
+
+                @if (item.Value is IHandSetRadioChannelAble)///////////////////////////////////
+                {
+                    <input type="submit" id="@item.Key" formaction="SetRadioChannel/@item.Key" class="button" value="Set Channel" /><!--  -->
+                    @Html.TextBox("rChannel", Session["rChannel"], new { id = "rChannel" + item.Key, size = "3" })
+                    <br />
+                    <br />
+                }
+
+                @if (item.Value is IIncDecChannelAble)
+                    {
+                    @Html.ActionLink("Channel +", "MainFunc", new { id = item.Key, command = "IncCh" }, new { @class = "button" })
+                    @Html.ActionLink("Channel -", "MainFunc", new { id = item.Key, command = "DecCh" }, new { @class = "button" })
+                    <br />
+                    <br />
+                }
+
+                @if (item.Value is IShowLoadListAble)
+                    {
+                    @Html.ActionLink("Load Chann List", "MainFunc", new { id = item.Key, command = "LoadChan" }, new { @class = "button" })
+                    <br />
+                    <br />
+                    @Html.ActionLink("Show Chann list", "MainFunc", new { id = item.Key, command = "ShowChan" }, new { @class = "button" })
+                    @Html.ActionLink("Hide Chann list", "MainFunc", new { id = item.Key, command = "HideChan" }, new { @class = "button" })
                     <br />
                     <br />
                     if (item.Value.Name == "TV")
@@ -165,18 +194,28 @@
                         @Html.TextArea("Radiolist" + @item.Key, (string)Session["RadioList"], new { id = item.Key, @class = "textAreaList" });
                     }
                 }
-                
-                @if (item.Value is IModeAble<Mode>)
+
+                @if (item.Value is IWarmModeAble)
                 {
-                    using (Html.BeginForm("SetMode/" + item.Key, "SmartHouse"))
-                    {
-                        <input type="submit" id="@item.Key" formaction="SetMode/@item.Key" class="button" value="Set mode" /><!---->
-                        @Html.DropDownList("mode", new SelectList(new[] { Mode.Turbo.ToString(), Mode.Eco.ToString(), Mode.Low.ToString(), Mode.Auto.ToString() }),
-                                                (string)Session["Mode"], new { id = "mode" + item.Key, @class = "dropDownDeviceList" })
-                    } 
-                    
+                    @Html.DropDownList("warmMode", new SelectList(new[] { Mode.Turbo.ToString(), Mode.Eco.ToString(), Mode.Low.ToString(), Mode.Auto.ToString() }),
+                                                (string)Session["wMode"], new { id = "wMode" + item.Key, @class = "dropDownDeviceList" })
+                    <input type="submit" id="@item.Key" formaction="SetWarmMode/@item.Key" class="button" value="Set Warm Mode" />
                 }
-                
+
+                @if (item.Value is IColdModeAble)
+                {
+                    @Html.DropDownList("coldMode", new SelectList(new[] { Mode.Turbo.ToString(), Mode.Eco.ToString(), Mode.Low.ToString(), Mode.Auto.ToString() }),
+                                    (string)Session["cMode"], new { id = "cMode" + item.Key, @class = "dropDownDeviceList" })
+                    <input type="submit" id="@item.Key" formaction="SetColdMode/@item.Key" class="button" value="Set Cold Mode" />
+                }
+
+                @if (item.Value is IlluminatorModeAble)
+                {
+                    @Html.DropDownList("ill", new SelectList(new[] {IlluminatorBrightness.BrightWhite.ToString(), IlluminatorBrightness.Daylight.ToString(),
+                           IlluminatorBrightness.WarmWhite.ToString(),IlluminatorBrightness.Default.ToString()}),
+                           (string)Session["illBright"], new { id = "illBright" + item.Key, @class = "dropDownDeviceList" })
+                    <input type="submit" id="@item.Key" formaction="SetIlluminatorBright/@item.Key" class="button" value="Set bright" />
+                }
             </div>
         }
     }

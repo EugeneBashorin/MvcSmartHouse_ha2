@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleSmartHouse1._0
+namespace MVCSmartHouse.Models.AdaptModel.AdaptInterfacies
 {
-    interface IModeDefaultSettingsAble
+   public interface IColdModeAble
     {
         void SetMaxMode();
         void SetMiddleMode();

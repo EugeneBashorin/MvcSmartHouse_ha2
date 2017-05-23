@@ -15,8 +15,8 @@ namespace MVCSmartHouse
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}/{command}/{butData}",
-                defaults: new { controller = "SmartHouse", action = "Index", id = UrlParameter.Optional, command = UrlParameter.Optional, butData = UrlParameter.Optional }
+                url: "{controller}/{action}/{id}/{command}",
+                defaults: new { controller = "SmartHouse", action = "Index", id = UrlParameter.Optional, command = UrlParameter.Optional }
             );
         }
     }

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace SimpleSmartHouse1._0
+namespace MVCSmartHouse.Models.AdaptModel.AdaptInterfacies
 {
-     interface ISetChannelAble
+    public interface IShowLoadListAble
     {
         void LoadChannel();
         string ShowChannelList();

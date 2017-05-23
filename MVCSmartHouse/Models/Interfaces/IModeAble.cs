@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleSmartHouse1._0
 {
-   public interface IModeAble<T>
+    interface IModeAble<T>
     {
         T Mode { get; set; }
     }

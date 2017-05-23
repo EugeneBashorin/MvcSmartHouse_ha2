@@ -4,7 +4,7 @@ using System.IO;
 
 namespace SimpleSmartHouse1._0
 {
-  class TV : Device, IModeDefaultSettingsAble, IChannelAble, ISetChannelAble, IVolumeAble, IBrightAble<BrightnessLevel>
+  class TV : Device, IModeDefaultSettingsAble, IChannelAble,ISetChannelAble,  IVolumeAble, IBrightAble<BrightnessLevel>
     {
         List<string> tvChannelList = new List<string>();
         private BrightnessLevel bright { get; set; }
@@ -12,6 +12,7 @@ namespace SimpleSmartHouse1._0
         public IParametrAble ChannelParam { get; set; }
         public IParametrAble VolumeParam { get; set; }
         public IListOrderAble ListFunction { get; set; }
+        private bool channelLoadState;
         private string chanList = "Channel list:";
         private string readPath = AppDomain.CurrentDomain.BaseDirectory + @"App_Data/ChannelList/ReadTVChannel.txt";
 
@@ -42,7 +43,11 @@ namespace SimpleSmartHouse1._0
         }
         public void LoadChannel()
         {
-            ListFunction.ListLoad(tvChannelList, readPath);
+            if (true == State)
+            {
+                channelLoadState = true;
+                ListFunction.ListLoad(tvChannelList, readPath);
+            }
         }
 
         //Volume
@@ -78,8 +83,8 @@ namespace SimpleSmartHouse1._0
         }
 
         public string ShowChannelList()
-        {
-            return ListFunction.ShowList(tvChannelList, chanList);
+        {     
+                return ListFunction.ShowList(tvChannelList, chanList);
         }
 
         //BrightnessLevel
@@ -103,27 +108,51 @@ namespace SimpleSmartHouse1._0
             Bright = BrightnessLevel.Default;
         }
 
+
+        public void IncreaseBrightness()
+        {
+            Volume = ChangeParams.Increase(Volume);
+        }
+
+        public void DecreaseBrightness()
+        {
+            Volume = ChangeParams.Decrease(Volume);
+        }
+
         public override string ToString()
         {
             string channelName;
             string channelNumber;
             string volume;
             string bright;
-            if (State)
+
+            string channelLoadState;
+
+            if (State == true)
             {
-                channelName = tvChannelList[Channel];
-                channelNumber = Channel.ToString();
                 volume = Volume.ToString();
                 bright = Bright.ToString();
+                if (this.channelLoadState == true)
+                {
+                    channelName = tvChannelList[Channel];
+                    channelNumber = Channel.ToString();
+                    channelLoadState = "Loaded";
+                }
+                else {
+                    channelLoadState = "Need to load";
+                    channelName = "--";
+                    channelNumber = "--";
+                }
             }
             else
             {
+                channelLoadState = "Need to load";
                 channelName = "--";
                 channelNumber = "--";
                 volume = "--";
                 bright = "--";
             }
-            return base.ToString() + " Channel:" + channelNumber + ":" + channelName + " Volume:" + volume + " Bright:" + bright;
+            return base.ToString() + " Channel:" + channelNumber + ":" + channelName + " Channel state:" + channelLoadState + " Volume:" + volume + " Bright:" + bright;
         }
     }
 }

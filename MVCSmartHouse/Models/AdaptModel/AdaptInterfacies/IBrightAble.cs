@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleSmartHouse1._0
+namespace MVCSmartHouse.Models.AdaptModel.AdaptInterfacies
 {
-     interface ISetChannelAble
+   public interface IBrightAble<T>
     {
-        void LoadChannel();
-        string ShowChannelList();
+        T Bright { get; set; }
     }
 }
