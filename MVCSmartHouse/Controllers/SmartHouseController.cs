@@ -1,5 +1,5 @@
-﻿using MVCSmartHouse.Models.AdaptModel.AdaptInterfacies;
-using MVCSmartHouse.Models.AdaptModel.AdaptModels;
+﻿using MVCSmartHouse.ViewModels.AdaptInterfacies;
+using MVCSmartHouse.ViewModels.AdaptModels;
 using SimpleSmartHouse1._0;
 using System;
 using System.Collections.Generic;
@@ -82,15 +82,15 @@ namespace MVCSmartHouse.Controllers
             {
                 if (deviceDictionary[id] is IVolumeAble)
                 {
-                    vol = (IVolumeAble)deviceDictionary[id];//inc decr VOLUME++
+                    vol = (IVolumeAble)deviceDictionary[id];//inc decr VOLUME
                 }
                 if (deviceDictionary[id] is IChannelAble)
                 {
-                    ch = (IChannelAble)deviceDictionary[id];//inc decr CHANNEL++
+                    ch = (IChannelAble)deviceDictionary[id];//inc decr CHANNEL
                 }
                 if (deviceDictionary[id] is ISetChannelAble)
                 {
-                    chList = (ISetChannelAble)deviceDictionary[id];//Load Show  CHAN_LIst  (HIDE OTHER COMMAND)!!!!!!! 
+                    chList = (ISetChannelAble)deviceDictionary[id];//Load Show  CHAN_LIst  HIDE_LIst 
                 }
                 if (deviceDictionary[id] is ITemperatureAble)
                 {

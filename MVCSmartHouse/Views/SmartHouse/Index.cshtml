@@ -1,5 +1,5 @@
 ﻿@using System.Web.Mvc.Html
-@using MVCSmartHouse.Models.AdaptModel.AdaptInterfacies;
+@using MVCSmartHouse.ViewModels.AdaptInterfacies;
 @using SimpleSmartHouse1._0
 
 @model IDictionary<int, Device>
@@ -32,7 +32,7 @@
                 <span>@Html.ActionLink("Off", "MainFunc", new { id = item.Key, command = "Off" }, new { @class = "button" })</span><!-- OFF -->
                 <span>@Html.ActionLink("Del", "MainFunc", new { id = item.Key, command = "Del" }, new { @class = "button" })</span><!-- DEL -->
                 <br />
-                @if (item.Value.Name == "Heater")
+                @if (item.Value is IHandSetTempWarmAble)//Heater
                     {
                         if (item.Value.State == true)
                         {
@@ -44,7 +44,7 @@
                     }
                 }
 
-                else if (item.Value.Name == "AirCondition")
+                else if (item.Value is IHandSetTempColdAble)//AC
                 {
                     if (item.Value.State == true)
                     {
@@ -56,7 +56,7 @@
                     }
                 }
 
-                else if (item.Value.Name == "Illuminator")
+                else if (item.Value is IlluminatorModeAble)//lamp
                 {
                     if (item.Value.State == true)
                     {
@@ -68,7 +68,7 @@
                     }
                 }
 
-                else if (item.Value.Name == "Radio")
+                else if (item.Value is IHandSetRadioChannelAble)//Radio
                 {
                     if (item.Value.State == true)
                     {
@@ -80,7 +80,7 @@
                     }
                 }
 
-                else if (item.Value.Name == "TV")
+                else if (item.Value is IHandSetTVChannelAble)//TV
                 {
                     if (item.Value.State == true)
                     {
@@ -160,7 +160,7 @@
                     <br />
                 }
 
-                @if (item.Value is IHandSetRadioChannelAble)///////////////////////////////////
+                @if (item.Value is IHandSetRadioChannelAble)
                 {
                     <input type="submit" id="@item.Key" formaction="SetRadioChannel/@item.Key" class="button" value="Set Channel" /><!--  -->
                     @Html.TextBox("rChannel", Session["rChannel"], new { id = "rChannel" + item.Key, size = "3" })

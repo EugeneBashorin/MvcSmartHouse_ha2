@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVCSmartHouse.Models.AdaptModel.AdaptInterfacies
+namespace MVCSmartHouse.ViewModels.AdaptInterfacies
 {
-   public interface IHandSetTempWarmAble
+   public interface IHandSetTempColdAble
     {
         void HandSetTemperature(int inputData);
     }

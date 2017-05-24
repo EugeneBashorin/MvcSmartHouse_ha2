@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVCSmartHouse.Models.AdaptModel.AdaptInterfacies
+namespace MVCSmartHouse.ViewModels.AdaptInterfacies
 {
-   public interface IBrightAble<T>
+  public interface IHandSetTVVolumeAble
     {
-        T Bright { get; set; }
+        void HandSetVolume(int inputData);
     }
 }

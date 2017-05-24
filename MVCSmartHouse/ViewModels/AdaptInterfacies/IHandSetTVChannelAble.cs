@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MVCSmartHouse.Models.AdaptModel.AdaptInterfacies
+namespace MVCSmartHouse.ViewModels.AdaptInterfacies
 {
-    public interface IHandSetRadioChannelAble
+    public interface IHandSetTVChannelAble
     {
         void HandSetChannel(int inputData);
     }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using SimpleSmartHouse1._0;
-using MVCSmartHouse.Models.AdaptModel.AdaptInterfacies;
+using MVCSmartHouse.ViewModels.AdaptInterfacies;
 
-namespace MVCSmartHouse.Models.AdaptModel.AdaptModels
+namespace MVCSmartHouse.ViewModels.AdaptModels
 {
     class NewAirCondition : AirCondition, IHandSetTempColdAble, IColdModeAble, IIncDecTemperatureAble
     {
